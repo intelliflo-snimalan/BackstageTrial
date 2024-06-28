@@ -1,0 +1,105 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-system
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ui-io
+spec:
+  owner: Triceratops
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ui-io
+spec:
+  type: website
+  lifecycle: POC
+  owner: Triceratops
+  system: ui-io
+  consumesApis: [ui-io-administration, headless-nio-adviser, headless-nio-organisation]
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ui-io-administration
+spec:
+  type: grpc
+  lifecycle: POC
+  owner: Triceratops
+  system: ui-io
+  providesApis: [ui-io]
+  definition: |
+    syntax = "proto3";
+
+    service Exampler {
+      rpc Example (ExampleMessage) returns (ExampleMessage) {};
+    }
+
+    message ExampleMessage {
+      string example = 1;
+    };
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: headless-nio-adviser
+spec:
+  type: grpc
+  lifecycle: POC
+  owner: Triceratops
+  system: ui-io
+  definition: |
+    syntax = "proto3";
+
+    service Example {
+      rpc Example (ExampleMessage) returns (ExampleMessage) {};
+    }
+
+    message ExampleMessage {
+      string example = 1;
+    };
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: headless-nio-organisation
+spec:
+  type: grpc
+  lifecycle: POC
+  owner: Triceratops
+  system: ui-io
+  consumesApis: [monolith-crm]
+  definition: |
+    syntax = "proto3";
+
+    service Example {
+      rpc Example (ExampleMessage) returns (ExampleMessage) {};
+    }
+
+    message ExampleMessage {
+      string example = 1;
+    };
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: monolith-crm
+spec:
+  type: grpc
+  lifecycle: POC
+  owner: Triceratops
+  system: ui-io
+  providesApis: [headless-nio-organisation]
+  definition: |
+    syntax = "proto3";
+
+    service Example {
+      rpc Example (ExampleMessage) returns (ExampleMessage) {};
+    }
+
+    message ExampleMessage {
+      string example = 1;
+    };
